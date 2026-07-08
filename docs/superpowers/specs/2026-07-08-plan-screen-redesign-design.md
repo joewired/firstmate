@@ -28,9 +28,9 @@ Each layer in Layer 3 is a full-width page containing a vertical list of `EventC
 
 ## 3. Layer 1: Athlete Strip
 
-- **Component:** `@expo/ui` universal `Avatar` (replaces hand-rolled `ProfileAvatar`).
+- **Component:** Existing `ProfileAvatar` component (unchanged — `@expo/ui` does not ship an `Avatar` component).
 - **Layout:** Horizontal `FlatList` with `snapToInterval`, `decelerationRate: 'fast'`, `showsHorizontalScrollIndicator={false}`.
-- **Active state:** Neon green ring (`NEON_GREEN`) around the avatar, achieved with a wrapper `View` that has `borderWidth: 2, borderColor: NEON_GREEN, borderRadius: size/2` since `@expo/ui` `Avatar` does not expose a border prop.
+- **Active state:** Neon green ring (`NEON_GREEN`) around the avatar, achieved with a wrapper `View` that has `borderWidth: 2, borderColor: NEON_GREEN, borderRadius: size/2`.
 - **Data:** Same `athletesWithEvents` logic — derives from week group events + current user, with `resolvedAthleteId` for preselection.
 - **Interaction:** Tap sets `selectedAthleteId`, which filters Layer 3 workouts. Haptic feedback via `expo-haptics` on press.
 
@@ -117,7 +117,7 @@ Same data flow as current Plan.tsx — no changes to hooks or stores.
 
 ## 9. Dependencies
 
-- `@expo/ui` — `Avatar`, `Host`, `Column`, `Row`, `Icon`, `Text` (already installed, SDK 57)
+- `@expo/ui` — `Host`, `Column`, `Row`, `Icon`, `Text` (already installed, SDK 57)
 - `react-native-reanimated` — `useSharedValue`, `useAnimatedScrollHandler`, `Animated.ScrollView`, `Animated.add`, `Animated.timing` (already in use via `@expo/ui/swift-ui` animation modifiers)
 - `expo-haptics` — press feedback (already installed)
 - `expo-router` — `Color`, `useRouter` (already installed)
