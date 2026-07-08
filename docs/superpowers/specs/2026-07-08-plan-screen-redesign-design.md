@@ -30,7 +30,7 @@ Each layer in Layer 3 is a full-width page containing a vertical list of `EventC
 
 - **Component:** `@expo/ui` universal `Avatar` (replaces hand-rolled `ProfileAvatar`).
 - **Layout:** Horizontal `FlatList` with `snapToInterval`, `decelerationRate: 'fast'`, `showsHorizontalScrollIndicator={false}`.
-- **Active state:** Neon green ring/border (`NEON_GREEN`) around the avatar.
+- **Active state:** Neon green ring (`NEON_GREEN`) around the avatar, achieved with a wrapper `View` that has `borderWidth: 2, borderColor: NEON_GREEN, borderRadius: size/2` since `@expo/ui` `Avatar` does not expose a border prop.
 - **Data:** Same `athletesWithEvents` logic — derives from week group events + current user, with `resolvedAthleteId` for preselection.
 - **Interaction:** Tap sets `selectedAthleteId`, which filters Layer 3 workouts. Haptic feedback via `expo-haptics` on press.
 
