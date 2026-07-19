@@ -88,3 +88,20 @@ if ! caller_has_merge_method "$@"; then
 fi
 
 gh-axi pr merge "$PR_NUMBER" --repo "$PR_OWNER/$PR_REPO" ${merge_args[@]+"${merge_args[@]}"} "$@"
+
+# Delete the merged remote branch from all remotes.
+BRANCH=$(gh-axi pr view "$PR_NUMBER" --repo "$PR_OWNER/$PR_REPO" --json headRefName --jq -r '.headRefName')
+[ -z "$BRANCH" ] && exit 0
+
+# Delete from origin (and any other GitHub remotes).
+for remote in $(git remote 2>/dev/null); do
+  remote_url=$(git remote get-url "$remote" 2>/dev/null || true)
+  case "$remote_url" in
+    *github.com*|*GitHub*)
+      gh-axi push --repo "$remote/$PR_OWNER/$PR_REPO" --delete "$BRANCH" 2>/dev/null || true
+      ;;
+    *)
+      git push "$remote" --delete "$BRANCH" 2>/dev/null || true
+      ;;
+  esac
+done
