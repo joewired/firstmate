@@ -103,6 +103,10 @@ fi
 
 [ -n "$CMD" ] || exit 0
 
+# Strip the Claude harness-added stderr passthrough (2>&1) before policy classification.
+# The harness appends this to capture hook stderr; it is not part of the user's command.
+CMD=${CMD%%2>&1}
+
 # Strict-superset prefilter (transport only; owns zero classification semantics).
 # Every protected watcher execution and every broad watcher kill resolves to the
 # fm-watch byte sequence AFTER the classifier's byte normalization, so a command
